@@ -8,6 +8,8 @@ package edu.eci.arsw.threads;
 /**
  *
  * @author hcadavid
+ * @author Juan Pablo Daza Pereira
+ * @author  Nicolas Bernal Fuquene
  */
 public class CountThread extends Thread {
     private int A;
