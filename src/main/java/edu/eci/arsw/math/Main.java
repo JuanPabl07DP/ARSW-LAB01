@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.eci.arsw.math;
 
 import java.util.Arrays;
@@ -31,7 +26,7 @@ public class Main {
         StringBuilder sb=new StringBuilder();
         for (int i=0;i<hexChars.length;i=i+2){
             //sb.append(hexChars[i]);
-            sb.append(hexChars[i+1]);            
+            sb.append(hexChars[i+1]);
         }
         return sb.toString();
     }
