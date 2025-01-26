@@ -13,7 +13,6 @@ package edu.eci.arsw.threads;
  */
 public class CountThreadsMain {
 
-    
     public static void main(String a[]){
         CountThread intervalo1 = new CountThread(0,99);
         CountThread intevalo2 = new CountThread(99,199);
