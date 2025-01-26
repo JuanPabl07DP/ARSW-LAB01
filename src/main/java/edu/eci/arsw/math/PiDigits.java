@@ -13,12 +13,6 @@ public class PiDigits {
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
 
-    /**
-     * Returns a range of hexadecimal digits of pi.
-     * @param start The starting location of the range.
-     * @param count The number of digits to return
-     * @return An array containing the hexadecimal digits.
-     */
     public static byte[] getDigits(int start, int count, int N) throws InterruptedException {
         if (start < 0 || count < 0 || N <= 0) {
             throw new RuntimeException("Invalid Interval");
@@ -39,7 +33,7 @@ public class PiDigits {
             currentStart += threadDigits;
         }
 
-        //
+        // Espera los hilos y combina los resultados
         int currentPosition = 0;
         for (int i = 0; i < N; i++) {
             threads[i].join();
@@ -50,6 +44,7 @@ public class PiDigits {
         return result;
     }
 
+    // Calculo de dígitos
     public static byte[] getDigits(int start, int count){
         if (start < 0 || count < 0) {
             throw new RuntimeException("Invalid Interval");
@@ -69,6 +64,7 @@ public class PiDigits {
         return digits;
     }
 
+    // Calculos de las sumas con base en BBP
     private static double sum(int m, int n) {
         double sum = 0;
         int d = m;
@@ -91,6 +87,7 @@ public class PiDigits {
         return sum;
     }
 
+    // Exponenciación en base 16
     private static int hexExponentModulo(int p, int m){
         int power = 1;
         while (power * 2 <= p){
