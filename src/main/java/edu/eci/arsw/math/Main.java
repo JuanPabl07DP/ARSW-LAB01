@@ -18,20 +18,20 @@ public class Main {
         PiDigits pi = new PiDigits();
 
         //Experimento con 1 hilo
-        runExperiment(pi, 1, 10000, 1);
+        runExperiment(pi, 1, 1000000, 1);
 
         //Experimento con tantos hilos como núcleos de procesamiento
         int cores = Runtime.getRuntime().availableProcessors();
-        runExperiment(pi, 1, 10000, cores);
+        runExperiment(pi, 1, 1000000, cores);
 
         //Experimento con tantos hilos como el doble de nucleos de procesamiento
-        runExperiment(pi, 1, 10000, cores*2);
+        runExperiment(pi, 1, 1000000, cores*2);
 
         //Experimento con 200 hilos
-        runExperiment(pi, 1, 10000, 200);
+        runExperiment(pi, 1, 1000000, 200);
 
         //Experimento con 500 hilos
-        runExperiment(pi, 1, 10000, 500);
+        runExperiment(pi, 1, 1000000, 500);
     }
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
