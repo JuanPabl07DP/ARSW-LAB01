@@ -18,9 +18,13 @@ public class CountThreadsMain {
         CountThread intevalo2 = new CountThread(99,199);
         CountThread intervalo3 = new CountThread(200,299);
 
+//        intervalo1.start();
+//        intevalo2.start();
+//        intervalo3.start();
+
         intervalo1.run();
         intevalo2.run();
         intervalo3.run();
     }
-    
+
 }

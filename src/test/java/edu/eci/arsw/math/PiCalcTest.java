@@ -1,89 +1,124 @@
 package edu.eci.arsw.math;
-
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 /**
  *
  * @author hcadavid
  * @author Juan Pablo Daza Pereira
  * @author Nicolas Bernal Fuquene
  */
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ * Tests for parallel PI digit calculation
+ */
 public class PiCalcTest {
 
-    @Test
-    public void piGenTestWithOneThread() throws Exception {
-        byte[] digits = PiDigits.getDigits(0, 10, 1);
-        byte[] expected = new byte[]{0x2, 0x4, 0x3, 0xF, 0x6, 0xA, 0x8, 0x8, 0x8, 0x5};
-        assertArrayEquals(expected, digits);
+    // Expected first 80 hexadecimal digits of PI
+    private static final byte[] EXPECTED_DIGITS = new byte[]{
+            0x2, 0x4, 0x3, 0xF, 0x6, 0xA, 0x8, 0x8,
+            0x8, 0x5, 0xA, 0x3, 0x0, 0x8, 0xD, 0x3,
+            0x1, 0x3, 0x1, 0x9, 0x8, 0xA, 0x2, 0xE,
+            0x0, 0x3, 0x7, 0x0, 0x7, 0x3, 0x4, 0x4,
+            0xA, 0x4, 0x0, 0x9, 0x3, 0x8, 0x2, 0x2,
+            0x2, 0x9, 0x9, 0xF, 0x3, 0x1, 0xD, 0x0,
+            0x0, 0x8, 0x2, 0xE, 0xF, 0xA, 0x9, 0x8,
+            0xE, 0xC, 0x4, 0xE, 0x6, 0xC, 0x8, 0x9,
+            0x4, 0x5, 0x2, 0x8, 0x2, 0x1, 0xE, 0x6,
+            0x3, 0x8, 0xD, 0x0, 0x1, 0x3, 0x7, 0x7
+    };
+
+    public PiCalcTest() {
+    }
+
+    @Before
+    public void setUp() {
     }
 
     @Test
-    public void piGenTestWithTwoThreads() throws Exception {
-        byte[] digits = PiDigits.getDigits(0, 10, 2);
-        byte[] expected = new byte[]{0x2, 0x4, 0x3, 0xF, 0x6, 0xA, 0x8, 0x8, 0x8, 0x5};
-        assertArrayEquals(expected, digits);
+    public void shouldCalculateCorrectlyWithSingleThread() {
+        // Probar varios rangos con 1 hilo
+        for (int start = 0; start < EXPECTED_DIGITS.length; start++) {
+            for (int count = 0; count < EXPECTED_DIGITS.length - start; count++) {
+                byte[] digits = PiDigits.getDigits(start, count, 1);
+                assertEquals(count, digits.length);
+
+                for (int i = 0; i < digits.length; i++) {
+                    assertEquals("Desajuste en la posición " + i + " para comenzar=" +
+                                    start + " contar=" + count,
+                            EXPECTED_DIGITS[start + i], digits[i]);
+                }
+            }
+        }
     }
 
     @Test
-    public void piGenTestWithThreeThreads() throws Exception {
-        byte[] digits = PiDigits.getDigits(0, 10, 3);
-        byte[] expected = new byte[]{0x2, 0x4, 0x3, 0xF, 0x6, 0xA, 0x8, 0x8, 0x8, 0x5};
-        assertArrayEquals(expected, digits);
+    public void shouldCalculateCorrectlyWithTwoThreads() {
+        // Prueba con 2 hilos, centrándose en los límites entre hilos
+        int[] testSizes = {16, 32, 48, 64}; // Diferentes tamaños para probar la distribución de hilos
+
+        for (int size : testSizes) {
+            byte[] digits = PiDigits.getDigits(0, size, 2);
+            assertEquals(size, digits.length);
+
+            for (int i = 0; i < digits.length; i++) {
+                assertEquals("Desajuste en la posición " + i + " para el tamaño=" + size,
+                        EXPECTED_DIGITS[i], digits[i]);
+            }
+        }
     }
 
-//    @Test
-//    public void shouldCalculateLargeNumberOfDigits() throws Exception {
-//        int count = 1000;
-//        byte[] digits = PiDigits.getDigits(0, count, 4);
-//        assertEquals(count, digits.length);
-//    }
-//
-//    @Test
-//    public void shouldCalculateWithOffset() throws Exception {
-//        byte[] digits = PiDigits.getDigits(1, 5, 1);
-//        byte[] expected = new byte[]{0x4, 0x3, 0xF, 0x6, 0xA};
-//        assertArrayEquals(expected, digits);
-//    }
-//
-//    @Test
-//    public void shouldHandleUnbalancedThreadDistribution() throws Exception {
-//        byte[] digits = PiDigits.getDigits(0, 10, 3); // 10 no es divisible uniformemente por 3
-//        byte[] expected = new byte[]{0x2, 0x4, 0x3, 0xF, 0x6, 0xA, 0x8, 0x8, 0x8, 0x5};
-//        assertArrayEquals(expected, digits);
-//    }
-//
-//    @Test
-//    public void shouldCalculateWithMoreThreadsThanDigits() throws Exception {
-//        byte[] digits = PiDigits.getDigits(0, 3, 5);
-//        byte[] expected = new byte[]{0x2, 0x4, 0x3};
-//        assertArrayEquals(expected, digits);
-//    }
-//
-//    @Test(expected = RuntimeException.class)
-//    public void shouldThrowExceptionWithInvalidThreadCount() throws Exception {
-//        PiDigits.getDigits(0, 10, 0);
-//    }
-//
-//    @Test(expected = RuntimeException.class)
-//    public void shouldThrowExceptionWithNegativeStart() throws Exception {
-//        PiDigits.getDigits(-1, 10, 1);
-//    }
-//
-//    @Test(expected = RuntimeException.class)
-//    public void shouldThrowExceptionWithNegativeCount() throws Exception {
-//        PiDigits.getDigits(0, -10, 1);
-//    }
-//
-//    @Test
-//    public void shouldHandleConsecutiveRanges() throws Exception {
-//        byte[] firstRange = PiDigits.getDigits(0, 5, 2);
-//        byte[] secondRange = PiDigits.getDigits(5, 5, 2);
-//        byte[] expected = new byte[]{0x2, 0x4, 0x3, 0xF, 0x6, 0xA, 0x8, 0x8, 0x8, 0x5};
-//        byte[] combined = new byte[10];
-//        System.arraycopy(firstRange, 0, combined, 0, 5);
-//        System.arraycopy(secondRange, 0, combined, 5, 5);
-//        assertArrayEquals(expected, combined);
-//    }
+    @Test
+    public void shouldCalculateCorrectlyWithThreeThreads() {
+        // Prueba con 3 hilos - número impar para probar distribución desigual
+        int[] testSizes = {20, 40, 60}; // Tamaños que no son perfectamente divisibles por 3
+
+        for (int size : testSizes) {
+            byte[] digits = PiDigits.getDigits(0, size, 3);
+            assertEquals(size, digits.length);
+
+            for (int i = 0; i < digits.length; i++) {
+                assertEquals("Desajuste en la posición " + i + " para el tamaño=" + size,
+                        EXPECTED_DIGITS[i], digits[i]);
+            }
+        }
+    }
+
+    @Test
+    public void shouldHandleOffsetStartWithMultipleThreads() {
+        // Cálculos de prueba que no comienzan en 0
+        int start = 10;
+        int count = 30;
+
+        // Test with different numbers of threads
+        for (int threads = 1; threads <= 3; threads++) {
+            byte[] digits = PiDigits.getDigits(start, count, threads);
+            assertEquals(count, digits.length);
+
+            for (int i = 0; i < digits.length; i++) {
+                assertEquals("Desajuste en la posición " + i + " con " + threads + " threads",
+                        EXPECTED_DIGITS[start + i], digits[i]);
+            }
+        }
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldFailWithNegativeStart() {
+        PiDigits.getDigits(-1, 10, 1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldFailWithNegativeCount() {
+        PiDigits.getDigits(0, -10, 1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldFailWithZeroThreads() {
+        PiDigits.getDigits(0, 10, 0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldFailWithNegativeThreads() {
+        PiDigits.getDigits(0, 10, -1);
+    }
 }

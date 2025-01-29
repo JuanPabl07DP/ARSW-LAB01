@@ -12,6 +12,11 @@ public class PiDigitsThread extends Thread {
     private final int count;
     private byte[] digits;
 
+    /**
+     * Creates a new thread to calculate PI digits
+     * @param start The starting position for this thread's calculation
+     * @param count The number of digits this thread should calculate
+     */
     public PiDigitsThread(int start, int count) {
         this.start = start;
         this.count = count;
@@ -19,13 +24,13 @@ public class PiDigitsThread extends Thread {
 
     @Override
     public void run() {
-        this.digits = PiDigits.getDigits(start, count);
+        digits = PiDigits.calculateDigits(start, count);
     }
 
-    public int getCount() {
-        return count;
-    }
-
+    /**
+     * Gets the calculated digits
+     * @return Array of calculated hexadecimal digits
+     */
     public byte[] getDigits() {
         return digits;
     }
