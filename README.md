@@ -46,11 +46,39 @@ Para este ejercicio se quiere calcular, en el menor tiempo posible, y en una sol
 
 A partir de lo anterior, implemente la siguiente secuencia de experimentos para calcular el millon de dígitos (hex) de PI, tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):
 
+![](img/6.png)
+
+![](img/7.png)
+
 1. Un solo hilo.
+
+![](img/8.png)
+
+![](img/13.png)
+
 2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)).
+
+![](img/12.png)
+
+![](img/14.png)
+
 3. Tantos hilos como el doble de núcleos de procesamiento.
+
+![](img/11.png)
+
+![](img/15.png)
+
 4. 200 hilos.
+
+![](img/10.png)
+
+![](img/16.png)
+
 5. 500 hilos.
+
+![](img/9.png)
+
+![](img/17.png)
 
 Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las pruebas, revise y anote el consumo de CPU y de memoria en cada caso. ![](img/jvisualvm.png)
 
@@ -62,11 +90,16 @@ Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tie
 
 	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?. 
 
+En teoria mientras mayor sea el numero de hilos, mejor deberia ser el desempeño, pero si usamos y nos basamos en la Ley de Amdahls, nos damos cuenta de que la mejora en el desempeño no es exactamente lineal con respecto al numero de hilos utilizados. No importa que tanto aumentemos el numero de hilos va a llegar un momento en donde la mejora en el desempeño comience a ser muy pequeña, esto se puede ver reflejado en la grafica del punto anterior, donde el resultado al usar 200 hilos y 500 hilos es casi el mismo. 
+
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
+
+Al usar el doble de tantos hilos como nucleos de procesamiento, el desmempeño es mejor que usando tantos hilos como nucleos de procesamiento, esto podemos verlo reflejado en la grafica y los tiempos tomados del punto anterior, donde podemos observar que le tomo casi la mitad del tiempo en comparacion con el rendimiento obtenido al usar tantos hilos como nuclos de procesamiento. Esto porque al duplicar el numero de hilos el rendimiento va a mejorar notablemente, especialmente porque aun eran pocos hilos, si hubieramos pasado de 200 a 400 hilos no habria habido mucha diferencia.
 
 3. De acuerdo con lo anterior, si para este problema en lugar de 500 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 500 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 500/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
 
-
+- 1 hilo por 500 maquinas: En teoria, deberia de poder aplicarse mejor la Ley de Amdahls, y por lo tanto deberia haber una mejora en el rendimiendo, puesto que se esta aprovechando al maximo la capacidad de cada una de las maquinas.
+- c hilos en 500/c maquinas: En este caso, hipoteticamente tambien deberia haber una mejora en el rendimiento, porque cada hilo tendria la situacion perfecta para poder aprovechar al maximo las capacidades de su maquina, cada maquina podria usar el numero de hilos mas apropiado para sacar el mejor rendimiento a la par que se hace uso de varias maquinas a la vez.
 
 #### Criterios de evaluación.
 
