@@ -80,7 +80,11 @@ Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las p
 
 Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):
 
+![](img/tabla.png)
 
+![](img/grafica.png)
+
+Como se puede observar en la grafica, podemos interpretar que mientras mas hilos menor tiempo se requiere para la ejecucion completa del programa, pero no sigue una tendencia lineal, si nos fijamos bien lo que mas llama la atencion en la grafica es que la diferencia entre usar un hilo y usar 24 es MUY grande, en cambio a partir de ahi la diferencia entre mayor es el numero de hilos es cada vez menor, tanto asi que la diferencia de tiempo entre usar 200 y 500 hilos es demasiado pequeña. Esto probablemente se deba a que al usar un solo hilo realmente no se esta aprovechando casi nada las capacidades del computador, de ahi que en la grafica de uso de CPU de un hilo, no muestra casi uso, mientras que en las demas si.
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
 
